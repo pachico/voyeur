@@ -1,5 +1,5 @@
 {
-	"name": "Pachico/Voyeur",
+	"name": "pachico/voyeur",
 	"description": "Voyeur takes screenshots of websites using different browsers through Selenium",
 	"license": "MIT",
 	"keywords": [
@@ -8,7 +8,7 @@
 	"authors": [
 		{
 			"name": "Mariano F.co Benítez Mulet",
-			"email": "pachico@gmail.com",
+			"email": "nanodevel@gmail.com",
 			"role": "Developer"
 		}
 	],
