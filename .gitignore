@@ -1,0 +1,6 @@
+/nbproject/private/
+/vendor/*
+/nbproject/
+/test/shots/*
+/test/code_coverage/
+/composer.phar
