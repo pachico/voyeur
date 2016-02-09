@@ -9,5 +9,8 @@ php:
 before_script:
     - composer self-update
     - composer install --no-interaction
+    - pip install --user codecov
 script: vendor/bin/phpunit -c test/phpunit.xml
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
 
