@@ -48,15 +48,18 @@ class Voyeur
 	/**
 	 *
 	 * @param \Pachico\Voyeur\Camera $camera
-	 * @param Film $film
+	 * @param \Pachico\Voyeur\Film $film
+	 * @param bool $output_log
 	 */
-	public function __construct(Camera $camera, Film $film, CLImate $logger = null)
+	public function __construct(Camera $camera, Film $film, $output_log = false)
 	{
 		$this->_camera = $camera;
 		$this->_film = $film;
 
-		$this->_logger = $logger ?
-			: new CLImate;
+
+		$this->_logger = true === $output_log
+			? new CLImate
+			: null;
 	}
 
 	/**
@@ -88,24 +91,21 @@ class Voyeur
 	protected function _shoot_shot(Shot $shot)
 	{
 
-		$this->_logger->out('Loading ' . $shot->get_uri());
+		$this->_logger and $this->_logger->out('Loading ' . $shot->get_uri());
 
-		// Do I have to resize the window?
-		if (is_int($shot->get_width()) and is_int($shot->get_height()))
-		{
-			$this->_logger->out('Resizing window to ' . $shot->get_width() . 'x' . $shot->get_height());
 
-			$this->_session->resizeWindow(
-				$shot->get_width(), $shot->get_height()
-			);
-		}
-		
+		$this->_logger and $this->_logger->out('Resizing window to ' . $shot->get_width() . 'x' . $shot->get_height());
+
+		$this->_session->resizeWindow(
+			$shot->get_width(), $shot->get_height()
+		);
+
 		// Load page
 		$this->_session->visit(
 			$shot->get_uri()
 		);
 
-		$this->_logger->out('Loading finished');
+		$this->_logger and $this->_logger->out('Loading finished');
 
 		// Should I wait for something?
 		if (count($shot->get_wait_for()) > 0)
@@ -117,9 +117,9 @@ class Voyeur
 					? null
 					: current($waitings);
 
-				$this->_logger->out('Waiting ' . $wait_time . ' microseconds');
+				$this->_logger and $this->_logger->out('Waiting ' . $wait_time . ' microseconds');
 
-				$condition and $this->_logger->out('Or until ' . $condition);
+				$condition and $this->_logger and $this->_logger->out('Or until ' . $condition);
 
 				$this->_session->wait($wait_time, $condition);
 			}
@@ -136,7 +136,7 @@ class Voyeur
 		}
 
 		// Finally take the screenshot and return it
-		$this->_logger->out('Taking screenshot');
+		$this->_logger and $this->_logger->out('Taking screenshot');
 		$picture = $this->_session->getScreenshot();
 
 		return $picture;
@@ -155,7 +155,7 @@ class Voyeur
 		// Starting sesion if not started yet (in short, open browser)
 		if (!$this->_session->isStarted())
 		{
-			$this->_logger->out('Starting camera session');
+			$this->_logger and $this->_logger->out('Starting camera session');
 			$this->_session->start();
 		}
 
@@ -166,7 +166,7 @@ class Voyeur
 
 			$output = $this->_shoot_shot($shot);
 
-			$this->_logger->out('Saving as ' . $this->_film->get_root_folder() . $shot->get_destination_file());
+			$this->_logger and $this->_logger->out('Saving as ' . $this->_film->get_root_folder() . $shot->get_destination_file());
 
 			// Save output in folder
 			$this->_film->get_filesystem()->put($shot->get_destination_file(), $output);

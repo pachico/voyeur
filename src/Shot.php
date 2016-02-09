@@ -23,13 +23,13 @@ class Shot
 	 *
 	 * @var int Browser width in pixels
 	 */
-	protected $_width = null;
+	protected $_width = 1366;
 
 	/**
 	 *
 	 * @var int Browser height in pixels
 	 */
-	protected $_height = null;
+	protected $_height = 768;
 
 	/**
 	 *

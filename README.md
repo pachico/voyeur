@@ -1,8 +1,11 @@
 # Voyeur
-Voyeur is a tool that will take screenshots of websites by connecting to either Selenium or Phantomjs.
+Voyeur is a tool that takes screenshots of websites by connecting to either Selenium or Phantomjs.
 It will allow you to resize the browser (in case you want to test CSS breakpoints) and execute any Javascript before you take the shot (typically useful if you want to interact with a page, like a login process):
 ## Installation
 I encourage you to use Composer to install it to the latest stable version, but you can also download manually. (You will be forced to use Composer anyway to install its dependencies.) 
+	
+	require pachico/voyeur dev-master
+
 ## Usage
 Voyeur uses metaphoric class names so you know what each one is supposed to do.
 As a **Voyeur**, you need a **Camera** (which is the Selenium/Phantomjs instance it will connect to), a **Film** (which is the storage where your screenshots will be saved) and a number of **Shots** (which are the web pages you want to capture, along with the browser size, scripts to execute, etc.)
