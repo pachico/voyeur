@@ -6,10 +6,11 @@
 	</testsuites>
 	<logging>
 		<log type="coverage-html" target="code_coverage/html" charset="UTF-8" yui="true" highlight="false" lowUpperBound="49" highLowerBound="75"/>
+		<log type="coverage-clover" target="code_coverage/clover.xml"/>
 	</logging>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">./src</directory>
+			<directory suffix=".php">./../src</directory>
 			<exclude>
 				<directory>./vendor</directory>
 			</exclude>

@@ -27,7 +27,7 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->_voyeur = new Voyeur(
-			$this->_get_mocked_camera(), $this->_get_mocked_film(), $this->_get_mocked_logger()
+			$this->_get_mocked_camera(), $this->_get_mocked_film(), true
 		);
 	}
 
@@ -59,17 +59,6 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 			->shouldReceive('getScreenshot')->andReturn($this->_get_mocked_screenshot())
 		;
 		return $session;
-	}
-
-	/**
-	 *
-	 * @return League\CLImate\CLImate
-	 */
-	protected function _get_mocked_logger()
-	{
-		$logger = m::mock('League\CLImate\CLImate');
-		$logger->shouldReceive('out')->andReturn(null);
-		return $logger;
 	}
 
 	/**
@@ -143,7 +132,7 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 	{
 
 		$this->_voyeur = new Voyeur(
-			$this->_get_mocked_camera(), $this->_get_mocked_film(), $this->_get_mocked_logger()
+			$this->_get_mocked_camera(), $this->_get_mocked_film(), false
 		);
 
 		$shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);

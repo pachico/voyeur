@@ -1,4 +1,7 @@
 # Voyeur
+
+[![Build Status](https://travis-ci.org/pachico/voyeur.svg?branch=master)](https://travis-ci.org/pachico/voyeur)
+
 Voyeur is a tool that takes screenshots of websites by connecting to either Selenium or Phantomjs.
 It will allow you to resize the browser (in case you want to test CSS breakpoints) and execute any Javascript before you take the shot (typically useful if you want to interact with a page, like a login process):
 ## Installation
