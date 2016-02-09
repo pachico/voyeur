@@ -56,8 +56,7 @@ class Voyeur
 		$this->_camera = $camera;
 		$this->_film = $film;
 
-
-		$this->_logger = true === $output_log
+		$this->_logger = (true === $output_log && php_sapi_name() === 'cli')
 			? new CLImate
 			: null;
 	}
@@ -94,7 +93,7 @@ class Voyeur
 		$this->_logger and $this->_logger->out('Loading ' . $shot->get_uri());
 
 
-		$this->_logger and $this->_logger->out('Resizing window to ' . $shot->get_width() . 'x' . $shot->get_height());
+		$this->_logger and $this->_logger->out("\tResizing window to " . $shot->get_width() . 'x' . $shot->get_height());
 
 		$this->_session->resizeWindow(
 			$shot->get_width(), $shot->get_height()
@@ -105,7 +104,7 @@ class Voyeur
 			$shot->get_uri()
 		);
 
-		$this->_logger and $this->_logger->out('Loading finished');
+		$this->_logger and $this->_logger->out("\tLoading finished");
 
 		// Should I wait for something?
 		if (count($shot->get_wait_for()) > 0)
@@ -117,9 +116,9 @@ class Voyeur
 					? null
 					: current($waitings);
 
-				$this->_logger and $this->_logger->out('Waiting ' . $wait_time . ' microseconds');
+				$this->_logger and $this->_logger->out("\tWaiting " . $wait_time . ' microseconds');
 
-				$condition and $this->_logger and $this->_logger->out('Or until ' . $condition);
+				$condition and $this->_logger and $this->_logger->out("\tOr until " . $condition);
 
 				$this->_session->wait($wait_time, $condition);
 			}
@@ -136,7 +135,7 @@ class Voyeur
 		}
 
 		// Finally take the screenshot and return it
-		$this->_logger and $this->_logger->out('Taking screenshot');
+		$this->_logger and $this->_logger->out("\tTaking screenshot");
 		$picture = $this->_session->getScreenshot();
 
 		return $picture;
@@ -166,7 +165,7 @@ class Voyeur
 
 			$output = $this->_shoot_shot($shot);
 
-			$this->_logger and $this->_logger->out('Saving as ' . $this->_film->get_root_folder() . $shot->get_destination_file());
+			$this->_logger and $this->_logger->out("\tSaving as " . $this->_film->get_root_folder() . $shot->get_destination_file());
 
 			// Save output in folder
 			$this->_film->get_filesystem()->put($shot->get_destination_file(), $output);

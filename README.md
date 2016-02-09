@@ -100,6 +100,12 @@ Once installed, execute it in webdriver mode
 
 Same as with Selenium, you will have to privide the url of your **Phantomjs** instance to the **Camera** constructor.
 
+##Log
+If you run it via CLI (recommended) you can also enable the output log as third parameter in **Voyeur** constructor:
+	
+	// third parameter (true) enables CLI log
+	$voyeur = new Voyeur($camera, $film, true);
+
 ## Contributing
 
 All suggestions, bug fixes, and feature requests are very welcome!
