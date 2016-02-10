@@ -48,15 +48,16 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 	{
 		$session = m::mock('Behat\Mink\Session');
 		$session
-			->shouldReceive('isStarted')->times(1)->andReturn(false)
-			->shouldReceive('isStarted')->times(1)->andReturn(true)
+			->shouldReceive('isStarted')->times(3)->andReturn(false)
+			->shouldReceive('isStarted')->andReturn(true)
 			->shouldReceive('start')->andReturn(true)
 			->shouldReceive('stop')->andReturn(true)
 			->shouldReceive('visit')->andReturn(true)
 			->shouldReceive('wait')->andReturn(true)
 			->shouldReceive('resizeWindow')->andReturn(true)
 			->shouldReceive('executeScript')->andReturn(true)
-			->shouldReceive('getScreenshot')->andReturn($this->_get_mocked_screenshot())
+			->shouldReceive('getScreenshot')->times(1)->andReturn($this->_get_mocked_screenshot())
+			->shouldReceive('getScreenshot')->times(1)->andReturn(null)
 		;
 		return $session;
 	}
@@ -70,7 +71,8 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 
 		$filesystem = m::mock('League\Flysystem\Filesystem');
 		$filesystem
-			->shouldReceive('put')->andReturn(true)
+			->shouldReceive('put')->times(1)->andReturn(true)
+			->shouldReceive('put')->andReturn(false)
 		;
 		return $filesystem;
 	}
@@ -135,8 +137,8 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 			$this->_get_mocked_camera(), $this->_get_mocked_film(), false
 		);
 
-		$shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);
-		$shot
+		$valid_shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);
+		$valid_shot
 			->add_scripts(TEST_SCRIPTS_FOLDER . 'banner1.js')
 			->set_window_size(1024, 800)
 			->add_wait_for(1000)
@@ -144,12 +146,26 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 		;
 
 		$this->assertInstanceOf(
-			'Pachico\Voyeur\Voyeur', $this->_voyeur->add_shot($shot)
+			'Pachico\Voyeur\Voyeur', $this->_voyeur->add_shot($valid_shot)
 		);
 
-		$this->assertSame(
-			[TEST_PICTURE_FOLDER . TEST_DESTINATION_FILE_NAME], $this->_voyeur->shoot()
-		);
+		$invalid_shot = new Shot('whatever', 'whatever');
+		$cannot_be_saved_shot = new Shot('whatever', 'whatever');
+
+		$this->_voyeur->add_shot($invalid_shot)->add_shot($cannot_be_saved_shot);
+
+		$shots = $this->_voyeur->shoot();
+
+		$this->assertInternalType('array', $shots);
+
+		$this->assertCount(3, $shots);
+
+		foreach ($shots as $shot)
+		{
+			$this->assertInstanceOf(
+				'Pachico\Voyeur\Shot', $shot
+			);
+		}
 	}
 
 }

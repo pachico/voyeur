@@ -39,9 +39,14 @@ $shot2 = (new Shot('http://locallhost.com/', uniqid() . '.png'))
 ;
 
 // Add the Shot to Voyeur and shot
-$saved_files = $voyeur
+$shots = $voyeur
 	->add_shot($shot1)
 	->add_shot($shot2)
 	->shoot();
 
-echo 'Saved files: ' . print_r($saved_files);
+echo "Saved files: \n";
+
+foreach ($shots as $shot)
+{
+	echo "\t" . TEST_SCRIPTS_FOLDER . (string) $shot . "\n";
+}

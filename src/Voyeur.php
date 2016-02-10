@@ -154,8 +154,6 @@ class Voyeur
 	 */
 	public function shoot()
 	{
-		$result = [];
-
 		$this->_session = $this->_camera->get_session();
 
 		// Iterate over shots
@@ -168,9 +166,22 @@ class Voyeur
 			$this->_logger and $this->_logger->out("\tSaving as " . $this->_film->get_root_folder() . $shot->get_destination_file());
 
 			// Save output in folder
-			$this->_film->get_filesystem()->put($shot->get_destination_file(), $output);
+			if (empty($output))
+			{
+				$this->_logger and $this->_logger - ("\tThere was an error capturing this page. Please, check or retry. ");
+				continue;
+			}
 
-			$result[] = $this->_film->get_root_folder() . $shot->get_destination_file();
+			$saved_result = $this->_film->get_filesystem()->put($shot->get_destination_file(), $output);
+
+			if (!$saved_result)
+			{
+				$this->_logger and $this->_logger - ("\tThere was an error saving the screenshot. Please, check or retry. ");
+				continue;
+			}
+
+			// It was successful, mark it
+			$shot->set_completed(true);
 		}
 
 		// If session is open (it should) just close it
@@ -179,7 +190,7 @@ class Voyeur
 			$this->_session->stop();
 		}
 
-		return $result;
+		return $this->_shots;
 	}
 
 }

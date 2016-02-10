@@ -53,6 +53,38 @@ class Shot
 
 	/**
 	 *
+	 * @var bool Whether or not the shot has been executed successfully
+	 */
+	protected $_completed = false;
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $_screencapture_path;
+
+	/**
+	 *
+	 * @param string $uri
+	 * @param string $destination_file
+	 */
+	public function __construct($uri, $destination_file)
+	{
+		$this->_uri = (string) $uri;
+		$this->_destination_file = ltrim($destination_file, '/');
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->_destination_file;
+	}
+
+	/**
+	 *
 	 * @return string
 	 */
 	public function get_uri()
@@ -107,8 +139,17 @@ class Shot
 
 	/**
 	 *
-	 * @param int $width in pixels
-	 * @param int $height in pixels
+	 * @return bool
+	 */
+	function is_completed()
+	{
+		return true === $this->_completed;
+	}
+
+	/**
+	 *
+	 * @param int $width In pixels
+	 * @param int $height In pixels
 	 * @return \Pachico\Voyeur\Shot
 	 */
 	public function set_window_size($width, $height)
@@ -120,8 +161,8 @@ class Shot
 
 	/**
 	 *
-	 * @param int $microseconds
-	 * @param string $condition_to_be_true
+	 * @param int $microseconds Time to wait in milliseconds
+	 * @param string $condition_to_be_true Condition to be true after which it doesn't wait anymore
 	 * @return \Pachico\Voyeur\Shot
 	 */
 	public function add_wait_for($microseconds = 3, $condition_to_be_true = null)
@@ -147,13 +188,11 @@ class Shot
 
 	/**
 	 *
-	 * @param string $uri
-	 * @param string $destination_file
+	 * @param bool $_completed
 	 */
-	public function __construct($uri, $destination_file)
+	function set_completed($_completed)
 	{
-		$this->_uri = (string) $uri;
-		$this->_destination_file = ltrim($destination_file, '/');
+		$this->_completed = (bool) $_completed;
 	}
 
 }

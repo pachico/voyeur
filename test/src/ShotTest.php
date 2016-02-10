@@ -97,4 +97,32 @@ class ShotTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers Pachico\Voyeur\Shot::__toString
+	 */
+	public function test__toString()
+	{
+		$this->assertSame(
+			TEST_DESTINATION_FILE_NAME, (string) $this->_shot
+		);
+	}
+
+	/**
+	 * @covers Pachico\Voyeur\Shot::is_completed
+	 * @covers Pachico\Voyeur\Shot::set_completed
+	 */
+	public function testSetIsCompleted()
+	{
+		$this->assertFalse($this->_shot->is_completed());
+
+		$this->_shot->set_completed(true);
+		$this->assertTrue($this->_shot->is_completed());
+
+		$this->_shot->set_completed(0);
+		$this->assertFalse($this->_shot->is_completed());
+
+		$this->_shot->set_completed(1);
+		$this->assertTrue($this->_shot->is_completed());
+	}
+
 }
