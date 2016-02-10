@@ -8,7 +8,9 @@
 namespace Pachico\Voyeur;
 
 /**
- *
+ * This is the page that will be screen captured,
+ * plus the browser dimensions, the js to execute
+ * and the time to wait before the shot is taken
  */
 class Shot
 {

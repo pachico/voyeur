@@ -3,15 +3,17 @@
 [![Build Status](https://travis-ci.org/pachico/voyeur.svg?branch=master)](https://travis-ci.org/pachico/voyeur) [![codecov.io](https://codecov.io/github/pachico/voyeur/coverage.svg?branch=master)](https://codecov.io/github/pachico/voyeur?branch=master)
 
 Voyeur is a tool that takes screenshots of websites by connecting to either Selenium or Phantomjs.
-It will allow you to resize the browser (in case you want to test CSS breakpoints) and execute any Javascript before you take the shot (typically useful if you want to interact with a page, like a login process):
+It will allow you to resize the browser (in case you want to test CSS breakpoints) and execute any Javascript before you take the shot (typically useful if you want to interact with a page, like a login process).
+
 ## Installation
-I encourage you to use Composer to install it to the latest stable version, but you can also download manually. (You will be forced to use Composer anyway to install its dependencies.) 
+I encourage you to use Composer to install it to the latest stable version, but you can also download manually. (Anyway, you will be forced to use Composer to install its dependencies.) 
 	
 	require pachico/voyeur dev-master
 
 ## Usage
+
 Voyeur uses metaphoric class names so you know what each one is supposed to do.
-As a **Voyeur**, you need a **Camera** (which is the Selenium/Phantomjs instance it will connect to), a **Film** (which is the storage where your screenshots will be saved) and a number of **Shots** (which are the web pages you want to capture, along with the browser size, scripts to execute, etc.)
+As a **Voyeur**, you need a **Camera** (which is the Selenium/Phantomjs instance it will connect to), a **Film** (which is the storage where your screenshots are saved) and a number of **Shots** (which are the web pages you want to capture, along with the browser size, scripts to execute, etc.).
 
 ### Simple example
 This is why a typical usage is:
@@ -38,25 +40,32 @@ This is why a typical usage is:
 		->add_shot($shot)
 		->shoot();
 
+>A real complete example can be found under  *test/example/example.php*
+
 ### Resizing browser
+
 You might want to capture the same page but with different browser sizes.
-You can easyly do this by creating as many **Shots** as you want and indicating to each one a different size before you add it to **Voyeur**.
+You can do this by creating multiple **Shots**, each one with a different size, and add them to **Voyeur**.
 
 	$shot = new Shot('http://www.example.com/',  '/example/home.png');
 	$shot->set_window_size(1024, 800); //width and height in pixels
 
 ### Execute Javacript
+
 It might be a necessity to interact with a webpage before you grab a screenshot (ie, you might want to login, or press a button that will load asyncronous data).
 You can tell any **Shot** to execute as many Javascript files as you want by indicating their paths before they are added to **Voyeur**.
 
 	$shot = new Shot('http://www.example.com/',  '/example/home.png');
 	$shot->add_scripts('/path/to/your/script.js'); // absolute path to the file
 
->**Note**: You can add as many scripts per **Shot**. They will be executed in the same order you added them.
+>**Note**: You can add multiple scripts to every **Shot**. They will be executed in the same order you added them.
 
 ### Wait before screenshot is taken
+
 However, asyncronous content might take some time before it's loaded and you don't want to take a screenshot before all the content has been fully loaded.
+
 #### Just wait some time
+
 You can solve this by telling every Shot to wait a certain amount of milliseconds to take the screenshot:
 
 	$shot = new Shot('http://www.example.com/',  '/example/home.png');
@@ -64,15 +73,16 @@ You can solve this by telling every Shot to wait a certain amount of millisecond
 
 >**Note**: You can add multiple waiting policies per **Shot**. They will be executed in the same order you added them.
 
-#### Wait, but only until...
-On the other hand, why to wait more than required? This is why this method accepts another parameter that might speed up your screen captures.
+#### Wait, but until...
+
+On the other hand, you don't want to wait more than what's required. This is why this method accepts another parameter that might speed up your screen captures.
 
 	$shot = new Shot('http://www.example.com/',  '/example/home.png');
 	$shot->add_wait_for(10000, '$(".somediv").is(":visible")'); 
 
 For this example I'm using jQuery but any Javascript assertion will work. 
 This will be interpreted as:
->Wait until the element with class "somediv" is visible. It if didn't mecome visible in less than 10 seconds, shoot anyway. 
+>Wait until the element with class "somediv" is visible. It if didn't become visible in less than 10 seconds, shoot anyway. 
 
 ##Camera
 
@@ -82,6 +92,7 @@ You will need to provide to its constructor the name of the browser and the url 
 	$camera = new Camera(Camera::DRIVER_NAME_PHAMTOMJS, 'http://localhost:8910/');
 
 ###Selenium
+
 Running Selenium is very easy and should work straight out of the box whenever, at least, Firefox is available.
 Download **Selenium Server Standalone** from http://www.seleniumhq.org/download/ and run it with:
 
@@ -95,6 +106,7 @@ It will be something like
 If you are executing Selenium and Voyeur in difference machines, make sure you set up the ip appropriately.
 
 ### Phantomjs
+
 **Phantomjs** is a headless browser which is much faster than Firefox, Chrome or others.
 Most linux distributions have a version in their repositories but you can download it from http://phantomjs.org/.
 Once installed, execute it in webdriver mode

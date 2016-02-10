@@ -11,7 +11,10 @@ use League\Flysystem\Filesystem as Filesystem,
 	League\Flysystem\Adapter\Local as Local;
 
 /**
- *
+ * This is the storage for the screen captures
+ * It uses FlySystem as filesystem abstraction layer,
+ * so you could save screencaptures through FTP, Amazon, etc.
+ * as long as there is a FlySystem adapter for it
  */
 class Film
 {
@@ -45,7 +48,7 @@ class Film
 
 	/**
 	 *
-	 * @param Filesystem $filesystem
+	 * @param Filesystem $filesystem Check FlySystem Adapters for more ways to store screencaptures
 	 * @return \Pachico\Voyeur\Film
 	 */
 	public function set_filesystem(Filesystem $filesystem)

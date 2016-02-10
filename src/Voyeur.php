@@ -10,7 +10,8 @@ namespace Pachico\Voyeur;
 use League\CLImate\CLImate as CLImate;
 
 /**
- *
+ * This class is the orchestrator that handles the Selenium
+ * connection istance and shoots screen captures.
  */
 class Voyeur
 {
@@ -90,8 +91,14 @@ class Voyeur
 	protected function _shoot_shot(Shot $shot)
 	{
 
-		$this->_logger and $this->_logger->out('Loading ' . $shot->get_uri());
+		// Starting sesion if not started yet (in short, open browser)
+		if (!$this->_session->isStarted())
+		{
+			$this->_logger and $this->_logger->out('Starting camera session');
+			$this->_session->start();
+		}
 
+		$this->_logger and $this->_logger->out('Loading ' . $shot->get_uri());
 
 		$this->_logger and $this->_logger->out("\tResizing window to " . $shot->get_width() . 'x' . $shot->get_height());
 
@@ -150,13 +157,6 @@ class Voyeur
 		$result = [];
 
 		$this->_session = $this->_camera->get_session();
-
-		// Starting sesion if not started yet (in short, open browser)
-		if (!$this->_session->isStarted())
-		{
-			$this->_logger and $this->_logger->out('Starting camera session');
-			$this->_session->start();
-		}
 
 		// Iterate over shots
 		foreach ($this->_shots as $shot)
