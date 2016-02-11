@@ -159,6 +159,15 @@ class Voyeur
 
 	/**
 	 *
+	 * @return Camera
+	 */
+	public function get_camera()
+	{
+		return $this->_camera;
+	}
+
+	/**
+	 *
 	 * @return array
 	 */
 	public function shoot()

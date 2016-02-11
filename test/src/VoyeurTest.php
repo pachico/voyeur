@@ -128,13 +128,16 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @covers Pachico\Voyeur\Voyeur::shoot
 	 * @covers Pachico\Voyeur\Voyeur::get_shots
+	 * @covers Pachico\Voyeur\Voyeur::get_camera
 	 * @covers Pachico\Voyeur\Voyeur::_get_script_file_content
 	 * @covers Pachico\Voyeur\Voyeur::_shoot_shot
 	 */
 	public function testShoot()
 	{
+		$mocked_camera = $this->_get_mocked_camera();
+
 		$this->_voyeur = new Voyeur(
-			$this->_get_mocked_camera(), $this->_get_mocked_film(), false
+			$mocked_camera, $this->_get_mocked_film(), false
 		);
 
 		$valid_shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);
@@ -169,9 +172,17 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 
 		$shots_from_getter = $this->_voyeur->get_shots();
 
-		$this->assertInternalType('array', $shots_from_getter);
+		$this->assertInternalType(
+			'array', $shots_from_getter
+		);
 
-		$this->assertSame($shots, $shots_from_getter);
+		$this->assertSame(
+			$shots, $shots_from_getter
+		);
+
+		$this->assertSame(
+			$this->_voyeur->get_camera(), $mocked_camera
+		);
 	}
 
 }
