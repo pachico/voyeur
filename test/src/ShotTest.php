@@ -125,4 +125,18 @@ class ShotTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($this->_shot->is_completed());
 	}
 
+	/**
+	 * @covers Pachico\Voyeur\Shot::get_id
+	 */
+	public function testGet_id()
+	{
+		$this->assertInternalType('string', $this->_shot->get_id());
+
+		$unique_id = uniqid('', true);
+
+		$this->_shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME, $unique_id);
+
+		$this->assertSame($unique_id, $this->_shot->get_id());
+	}
+
 }

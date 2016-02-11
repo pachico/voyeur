@@ -27,24 +27,58 @@ class Camera
 
 	/**
 	 *
-	 * @var Session Mink Session that interact with browser
+	 * @var string Browser driver name
 	 */
-	protected $_session = null;
+	protected $_driver_name;
 
 	/**
 	 *
-	 * @param string $driver_type Or name of the Browser. Use constants to avoid misspellings
+	 * @var Uri for Selenium/Phantomjs hub
+	 */
+	protected $_hub_path;
+
+	/**
+	 *
+	 * @var Session Mink Session that interact with browser
+	 */
+	protected $_session;
+
+	/**
+	 *
+	 * @param string $driver_name Or name of the Browser. Use constants to avoid misspellings
 	 * @param string $hub_path Path to the Selenium/Phantomjs hub
 	 * @param array $desired_capabilities @see https://code.google.com/p/selenium/wiki/DesiredCapabilities
 	 */
-	public function __construct($driver_type, $hub_path, array $desired_capabilities = null)
+	public function __construct($driver_name, $hub_path, array $desired_capabilities = null)
 	{
 
+		$this->_driver_name = $driver_name;
+
+		$this->_hub_path = $hub_path;
+
 		$driver = new Selenium2Driver(
-			$driver_type, $desired_capabilities, $hub_path
+			$driver_name, $desired_capabilities, $hub_path
 		);
 
 		$this->_session = new Session($driver);
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	function get_driver_name()
+	{
+		return $this->_driver_name;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	function get_hub_path()
+	{
+		return $this->_hub_path;
 	}
 
 	/**

@@ -115,6 +115,12 @@ Once installed, execute it in webdriver mode
 
 Same as with Selenium, you will have to privide the url of your **Phantomjs** instance to the **Camera** constructor.
 
+## Shot
+When creating a **Shot**, you can also specify an id for it passing it as third parameter to its constructor. It can be handy to use it as reference when **Voyeur** is loaded with multiple Shots.
+If not specified, it will internally create a unique one.
+
+	$shot = new Shot('http://www.example.com/', '/example/home.png', $anystring);
+
 ##Log
 If you run it via CLI (recommended) you can also enable the output log as third parameter in **Voyeur** constructor:
 	

@@ -3,7 +3,13 @@
 	"description": "Voyeur takes screenshots of websites using different browsers through Selenium",
 	"license": "MIT",
 	"keywords": [
-		"Screenshot", "Screen shot", "Screen capture", "Selenium", "Scapping", "Visual Test", "Phantomjs"
+		"Screenshot",
+		"Screen shot",
+		"Screen capture",
+		"Selenium",
+		"Scapping",
+		"Visual Test",
+		"Phantomjs"
 	],
 	"authors": [
 		{
@@ -17,6 +23,7 @@
 			"Pachico\\Voyeur\\": "src/"
 		}
 	},
+	"minimum-stability": "stable",
 	"require": {
 		"php": ">=5.4.0",
 		"behat/mink-selenium2-driver": "1.3",

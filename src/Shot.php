@@ -17,6 +17,12 @@ class Shot
 
 	/**
 	 *
+	 * @var string A unique identifier for this shot
+	 */
+	protected $_id;
+
+	/**
+	 *
 	 * @var string Uri to take screenshot to
 	 */
 	protected $_uri;
@@ -65,13 +71,16 @@ class Shot
 
 	/**
 	 *
-	 * @param string $uri
-	 * @param string $destination_file
+	 * @param string $uri Uri to take screenshot of
+	 * @param string $destination_file Name of the image that will be generated
+	 * @param string $id Idenfifier of this shot
 	 */
-	public function __construct($uri, $destination_file)
+	public function __construct($uri, $destination_file, $id = null)
 	{
 		$this->_uri = (string) $uri;
 		$this->_destination_file = ltrim($destination_file, '/');
+		$this->_id = $id ?
+			: uniqid('', true);
 	}
 
 	/**
@@ -81,6 +90,15 @@ class Shot
 	public function __toString()
 	{
 		return $this->_destination_file;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	function get_id()
+	{
+		return $this->_id;
 	}
 
 	/**
@@ -177,7 +195,7 @@ class Shot
 
 	/**
 	 *
-	 * @param string $_scripts
+	 * @param string $_scripts Script that will be executed
 	 * @return \Pachico\Voyeur\Shot
 	 */
 	public function add_scripts($_scripts)
@@ -188,7 +206,7 @@ class Shot
 
 	/**
 	 *
-	 * @param bool $_completed
+	 * @param bool $_completed Mark as if completed or not
 	 */
 	function set_completed($_completed)
 	{
