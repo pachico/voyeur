@@ -63,17 +63,6 @@ class Voyeur
 	}
 
 	/**
-	 *
-	 * @param \Pachico\Voyeur\Shot $shot
-	 * @return \Pachico\Voyeur\Voyeur
-	 */
-	public function add_shot(Shot $shot)
-	{
-		$this->_shots[] = $shot;
-		return $this;
-	}
-
-	/**
 	 * @todo Handle case script doesn't exist or cannot be read
 	 * @param string $script_path
 	 * @return string
@@ -146,6 +135,26 @@ class Voyeur
 		$picture = $this->_session->getScreenshot();
 
 		return $picture;
+	}
+
+	/**
+	 *
+	 * @param \Pachico\Voyeur\Shot $shot
+	 * @return \Pachico\Voyeur\Voyeur
+	 */
+	public function add_shot(Shot $shot)
+	{
+		$this->_shots[] = $shot;
+		return $this;
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function get_shots()
+	{
+		return $this->_shots;
 	}
 
 	/**
