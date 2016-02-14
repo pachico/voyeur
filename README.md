@@ -16,7 +16,7 @@ Voyeur uses metaphoric class names so you know what each one is supposed to do.
 As a **Voyeur**, you need a **Camera** (which is the Selenium/Phantomjs instance it will connect to), a **Film** (which is the storage where your screenshots are saved) and a number of **Shots** (which are the web pages you want to capture, along with the browser size, scripts to execute, etc.).
 
 ### Simple example
-This is why a typical usage is:
+This is what a typical usage looks like:
 	
 	use	\Pachico\Voyeur\Voyeur as Voyeur,
 		\Pachico\Voyeur\Shot as Shot,
