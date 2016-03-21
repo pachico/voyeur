@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Mariano F.co Benítez Mulet <pachico@gmail.com>
+ * @author Mariano F.co Benítez Mulet <nanodevel@gmail.com>
  * @copyright (c) 2016-2019, Mariano F.co Benítez Mulet
  *
  * This is a real working example.
