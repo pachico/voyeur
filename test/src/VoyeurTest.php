@@ -131,13 +131,75 @@ class VoyeurTest extends \PHPUnit_Framework_TestCase
 	 * @covers Pachico\Voyeur\Voyeur::get_camera
 	 * @covers Pachico\Voyeur\Voyeur::_get_script_file_content
 	 * @covers Pachico\Voyeur\Voyeur::_shoot_shot
+	 * @covers Pachico\Voyeur\Voyeur::_log_out
 	 */
-	public function testShoot()
+	public function testShootNoLog()
 	{
 		$mocked_camera = $this->_get_mocked_camera();
 
 		$this->_voyeur = new Voyeur(
 			$mocked_camera, $this->_get_mocked_film(), false
+		);
+
+		$valid_shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);
+		$valid_shot
+			->add_scripts(TEST_SCRIPTS_FOLDER . 'banner1.js')
+			->set_window_size(1024, 800)
+			->add_wait_for(1000)
+			->add_wait_for(1000, '1 === 1')
+		;
+
+		$this->assertInstanceOf(
+			'Pachico\Voyeur\Voyeur', $this->_voyeur->add_shot($valid_shot)
+		);
+
+		$invalid_shot = new Shot('whatever', 'whatever');
+		$cannot_be_saved_shot = new Shot('whatever', 'whatever');
+
+		$this->_voyeur->add_shot($invalid_shot)->add_shot($cannot_be_saved_shot);
+
+		$shots = $this->_voyeur->shoot();
+
+		$this->assertInternalType('array', $shots);
+
+		$this->assertCount(3, $shots);
+
+		foreach ($shots as $shot)
+		{
+			$this->assertInstanceOf(
+				'Pachico\Voyeur\Shot', $shot
+			);
+		}
+
+		$shots_from_getter = $this->_voyeur->get_shots();
+
+		$this->assertInternalType(
+			'array', $shots_from_getter
+		);
+
+		$this->assertSame(
+			$shots, $shots_from_getter
+		);
+
+		$this->assertSame(
+			$this->_voyeur->get_camera(), $mocked_camera
+		);
+	}
+
+	/**
+	 * @covers Pachico\Voyeur\Voyeur::shoot
+	 * @covers Pachico\Voyeur\Voyeur::get_shots
+	 * @covers Pachico\Voyeur\Voyeur::get_camera
+	 * @covers Pachico\Voyeur\Voyeur::_get_script_file_content
+	 * @covers Pachico\Voyeur\Voyeur::_shoot_shot
+	 * @covers Pachico\Voyeur\Voyeur::_log_out
+	 */
+	public function testShootLog()
+	{
+		$mocked_camera = $this->_get_mocked_camera();
+
+		$this->_voyeur = new Voyeur(
+			$mocked_camera, $this->_get_mocked_film(), true
 		);
 
 		$valid_shot = new Shot(TEST_URI, TEST_DESTINATION_FILE_NAME);

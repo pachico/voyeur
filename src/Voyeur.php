@@ -83,13 +83,13 @@ class Voyeur
 		// Starting sesion if not started yet (in short, open browser)
 		if (!$this->_session->isStarted())
 		{
-			$this->_logger and $this->_logger->out('Starting camera session');
+			$this->_log_out('Starting camera session');
 			$this->_session->start();
 		}
 
-		$this->_logger and $this->_logger->out('Loading ' . $shot->get_uri());
+		$this->_log_out('Loading ' . $shot->get_uri());
 
-		$this->_logger and $this->_logger->out("\tResizing window to " . $shot->get_width() . 'x' . $shot->get_height());
+		$this->_log_out("Resizing window to " . $shot->get_width() . 'x' . $shot->get_height());
 
 		$this->_session->resizeWindow(
 			$shot->get_width(), $shot->get_height()
@@ -100,7 +100,7 @@ class Voyeur
 			$shot->get_uri()
 		);
 
-		$this->_logger and $this->_logger->out("\tLoading finished");
+		$this->_log_out("Loading finished");
 
 		// Should I wait for something?
 		if (count($shot->get_wait_for()) > 0)
@@ -112,9 +112,9 @@ class Voyeur
 					? null
 					: current($waitings);
 
-				$this->_logger and $this->_logger->out("\tWaiting " . $wait_time . ' microseconds');
+				$this->_log_out("Waiting " . $wait_time . ' microseconds');
 
-				$condition and $this->_logger and $this->_logger->out("\tOr until " . $condition);
+				$condition and $this->_log_out("Or until " . $condition);
 
 				$this->_session->wait($wait_time, $condition);
 			}
@@ -131,7 +131,7 @@ class Voyeur
 		}
 
 		// Finally take the screenshot and return it
-		$this->_logger and $this->_logger->out("\tTaking screenshot");
+		$this->_log_out("Taking screenshot");
 		$picture = $this->_session->getScreenshot();
 
 		return $picture;
@@ -168,6 +168,22 @@ class Voyeur
 
 	/**
 	 *
+	 * @param string $string
+	 * @return void
+	 */
+	protected function _log_out($string)
+	{
+		if (!$this->_logger)
+		{
+			return;
+		}
+
+		$this->_logger->out($string);
+		return;
+	}
+
+	/**
+	 *
 	 * @return array
 	 */
 	public function shoot()
@@ -181,12 +197,12 @@ class Voyeur
 
 			$output = $this->_shoot_shot($shot);
 
-			$this->_logger and $this->_logger->out("\tSaving as " . $this->_film->get_root_folder() . $shot->get_destination_file());
+			$this->_log_out("Saving as " . $this->_film->get_root_folder() . $shot->get_destination_file());
 
 			// Save output in folder
 			if (empty($output))
 			{
-				$this->_logger and $this->_logger - ("\tThere was an error capturing this page. Please, check or retry. ");
+				$this->_log_out("There was an error capturing this page. Please, check or retry. ");
 				continue;
 			}
 
@@ -194,7 +210,7 @@ class Voyeur
 
 			if (!$saved_result)
 			{
-				$this->_logger and $this->_logger - ("\tThere was an error saving the screenshot. Please, check or retry. ");
+				$this->_log_out("There was an error saving the screenshot. Please, check or retry. ");
 				continue;
 			}
 

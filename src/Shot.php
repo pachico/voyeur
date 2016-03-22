@@ -73,13 +73,13 @@ class Shot
 	 *
 	 * @param string $uri Uri to take screenshot of
 	 * @param string $destination_file Name of the image that will be generated
-	 * @param string $id Idenfifier of this shot
+	 * @param string $shot_id Idenfifier of this shot
 	 */
-	public function __construct($uri, $destination_file, $id = null)
+	public function __construct($uri, $destination_file, $shot_id = null)
 	{
 		$this->_uri = (string) $uri;
 		$this->_destination_file = ltrim($destination_file, '/');
-		$this->_id = $id ?
+		$this->_id = $shot_id ?
 			: uniqid('', true);
 	}
 
